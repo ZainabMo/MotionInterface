@@ -69,6 +69,28 @@
             window.addEventListener("deviceorientation", handleOrientation, true);
 
 
+            if (location.protocol != "https:") {
+                location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+            }
+
+            function permission() {
+                if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
+                    // (optional) Do something before API request prompt.
+                    output.textContent = `Need to request for permission first \n`;
+                    DeviceMotionEvent.requestPermission()
+                        .then(response => {
+                            // (optional) Do something after API prompt dismissed.
+                            if (response == "granted") {
+                                window.addEventListener("deviceorientation", handleOrientation, true);
+                            }
+                        })
+                        .catch(console.error);
+                } else {
+                    alert("DeviceMotionEvent is undefined.");
+                }
+            }
+
+            window.onload = permission();
         });
       })(window.jQuery);
   </script>
