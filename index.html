@@ -20,11 +20,52 @@
   -->
 </head>
 <body>
-  <input type="text"/>
+  <input id="input" type="text" onkeydown="saveMemento()"/>
+  <button id="undo" onclick="undo()">undo</button>
+  <button id="redo" onclick="redo()">redo</button>
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
-  <script src="src/UndoRedo.js"></script>
-  <script>
-    
+  <script type="text/javascript">
+    //Building on code snippet from https://stackoverflow.com/questions/54416318/how-to-make-a-undo-redo-function
+    const UndoMementos = []
+    const RedoMementos = []
+    const input = document.querySelector('input')
+
+    function saveMemento() {
+      UndoMementos.push(input.value)
+    }
+
+    function undo() {
+      RedoMementos.push(input.value)
+      const lastMemento = UndoMementos.pop()
+      input.value = lastMemento ? lastMemento : input.value
+    }
+
+    function redo() {
+      const redoMemento = RedoMementos.pop()
+      input.value = redoMemento.length > input.value.length ? redoMemento : input.value //if redo value is larger
+      UndoMementos.push(input.value)
+    }
+
+    (function($) {
+        $(document).ready(function() {
+            function handleOrientation(event) {
+                var x = event.beta; // In degree in the range [-180,180)
+                var y = event.gamma; // In degree in the range [-90,90)
+
+                // Because we don't want to have the device upside down
+                // We constrain the x value to the range [-90,90]
+                if (x > 90) { x = 90 };
+                if (x < -90) { x = -90 };
+
+                // To make computation easier we shift the range of
+                // x and y to [0,180]
+                x += 90;
+                y += 90;
+            }
+
+            window.addEventListener("deviceorientation", handleOrientation, true);
+        });
+      })(window.jQuery);
   </script>
 </body>
 </html>
