@@ -12,6 +12,7 @@
   dont map to state (NOT if x=.. SHUD BE 
   if angle changes from 0 to greater 50(or give grace of extra degrees,
   maybe case of accidental phonedrop?),
+  if has changed let them make phone straight again
    add max PLUS), but to transition/change,
    + time threshhold toprevent accident
    
@@ -20,16 +21,17 @@
   -->
 </head>
 <body>
-  <input id="input" type="text" onkeydown="saveMemento()"/>
+  <input id="input" type="text"/>
   <button id="undo" onclick="undo()">undo</button>
   <button id="redo" onclick="redo()">redo</button>
+  <pre class="output">result </pre>
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
   <script type="text/javascript">
     //Building on code snippet from https://stackoverflow.com/questions/54416318/how-to-make-a-undo-redo-function
     const UndoMementos = []
     const RedoMementos = []
     const input = document.querySelector('input')
-
+    input.addEventListener('input', saveMemento);
     function saveMemento() {
       UndoMementos.push(input.value)
     }
@@ -51,7 +53,8 @@
             function handleOrientation(event) {
                 var x = event.beta; // In degree in the range [-180,180)
                 var y = event.gamma; // In degree in the range [-90,90)
-
+                output.textContent += `beta : ${x}\n`;
+                output.textContent += `gamma: ${y}\n`;
                 // Because we don't want to have the device upside down
                 // We constrain the x value to the range [-90,90]
                 if (x > 90) { x = 90 };
@@ -64,6 +67,8 @@
             }
 
             window.addEventListener("deviceorientation", handleOrientation, true);
+
+
         });
       })(window.jQuery);
   </script>
