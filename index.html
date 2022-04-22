@@ -61,7 +61,7 @@
             
         }
         
-        function permission() {
+        $("#request").on("click", function () {
           if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
             DeviceMotionEvent.requestPermission()
               .then(response => {
@@ -74,9 +74,8 @@
           } else {
             alert("DeviceMotionEvent is undefined.");
           }
-        }
-        $("#request").on("click", permission);
-
+        });
+       
         const UndoMementos = []
           const RedoMementos = []
           const input = document.querySelector('input')
