@@ -50,20 +50,22 @@
             var tilted = false;
             //Left tilt is undo and right tilt is redo, since English is read left to right
             //Left: initial position is 
-            if((currentY > initialY-55) && (currentY < initialY+10)){ //45 + 10 degrees grace
+            if((currentY > initialY-55) && (currentY < initialY+10) && !tilted){ //45 + 10 degrees grace
               tilted=true;
               setTimeout(function(){
-                tilted = false; //wait for phone to turn back up
+                undo();
               }, 2500);
-              //UNDO
             }
             //Right
-            if(initialY < currentY + 45){
+            if((currentY < initialY+55) && (currentY > initialY-10) && !tilted){
               tilted=true;
               setTimeout(function(){
-                tilted = false; //wait for phone to turn back up
+                redo();
               }, 2500);
-              //REDO
+            }
+            //When phone is back up, change tilted to false
+            if((currentY > initialY-10) && (currentY < initialY+10)){
+              tilted = false;
             }
         }
         
