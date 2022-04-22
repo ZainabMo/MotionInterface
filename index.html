@@ -58,30 +58,30 @@
         $("#start").click(permission);
         
         function getInitialAngle(event){
-          return event.gamma;
+          return event.beta;
         }
         function handleOrientation(event) {
-            var initialY = setInterval(getInitialAngle, 5000);
+            var initialX = setInterval(getInitialAngle, 5000);
             // var x = event.beta; // In degree in the range [-180,180)
-            var currentY = event.gamma; // In degree in the range [-90,90)
+            var currentX = event.beta; // In degree in the range [-90,90)
             var tilted = false;
             //Left tilt is undo and right tilt is redo, since English is read left to right
             //Left: initial position is 
-            if((currentY > initialY-55) && (currentY < initialY+10) && !tilted){ //45 + 10 degrees grace
+            if((currentX > initialX-55) && (currentX < initialX+10) && !tilted){ //45 + 10 degrees grace
               tilted=true;
               setTimeout(function(){
                 undo();
               }, 2500);
             }
             //Right
-            if((currentY < initialY+55) && (currentY > initialY-10) && !tilted){
+            if((currentX < initialX+55) && (currentX > initialX-10) && !tilted){
               tilted=true;
               setTimeout(function(){
                 redo();
               }, 2500);
             }
             //When phone is back up, change tilted to false
-            if((currentY > initialY-10) && (currentY < initialY+10)){
+            if((currentX > initialX-10) && (currentX < initialX+10)){
               tilted = false;
             }
         }
