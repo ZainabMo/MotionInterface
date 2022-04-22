@@ -50,21 +50,24 @@
             var currentX = event.beta; // In degree in the range [-90,90)
             var tilted = false;
             //Left tilt is undo and right tilt is redo, since English is read left to right
-            //Left
-            if((currentX == 10) && !tilted){
+            //Left: initial position is 
+            if((currentX > -55) && (currentX < 10) && !tilted){ //45 + 10 degrees grace
               tilted=true;
               undo();
             }
             //Right
-            else if((currentX == 55) && !tilted){
+            if((currentX < 55) && (currentX > 10) && !tilted){
               tilted=true;
               redo();
             }
             //When phone is back up, change tilted to false
-            else {
+            if((currentX > 10) && (currentX < 10)){
               tilted = false;
             }
         }
+
+        window.addEventListener('deviceorientation', handleOrientation);
+
        
         const UndoMementos = []
         const RedoMementos = []
