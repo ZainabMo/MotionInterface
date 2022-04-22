@@ -53,16 +53,12 @@
             //Left: initial position is 
             if((currentX > -55) && (currentX < 10) && !tilted){ //45 + 10 degrees grace
               tilted=true;
-              setTimeout(function(){
-                undo();
-              }, 2500);
+              undo();
             }
             //Right
             if((currentX < 55) && (currentX > 10) && !tilted){
               tilted=true;
-              setTimeout(function(){
-                redo();
-              }, 2500);
+              redo();
             }
             //When phone is back up, change tilted to false
             if((currentX > 10) && (currentX < 10)){
