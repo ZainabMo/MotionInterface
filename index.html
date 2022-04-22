@@ -39,6 +39,21 @@
         if (location.protocol != "https:") {
           location.href = "https:" + window.location.href.substring(window.location.protocol.length);
         }
+        $("#start").on("click", function () {
+          if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
+            DeviceMotionEvent.requestPermission()
+              .then(response => {
+                if (response == "granted") {
+                  window.addEventListener("deviceorientation", handleOrientation, true);
+                  window.addEventListener("deviceorientation", getInitialAngle, true);
+                  $("#start").remove();
+                }
+              })
+              .catch(console.error);
+          } else {
+            alert("DeviceMotionEvent is undefined.");
+          }
+        });
         
         function getInitialAngle(event){
           return event.gamma;
@@ -68,21 +83,6 @@
               tilted = false;
             }
         }
-        
-        $("#start").on("click", function () {
-          if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
-            DeviceMotionEvent.requestPermission()
-              .then(response => {
-                if (response == "granted") {
-                  window.addEventListener("deviceorientation", handleOrientation, true);
-                  window.addEventListener("deviceorientation", getInitialAngle, true);
-                }
-              })
-              .catch(console.error);
-          } else {
-            alert("DeviceMotionEvent is undefined.");
-          }
-        });
        
         const UndoMementos = []
         const RedoMementos = []
