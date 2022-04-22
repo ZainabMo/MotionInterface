@@ -54,6 +54,21 @@
 
             
         }
+        
+        function permission() {
+          if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
+            DeviceMotionEvent.requestPermission()
+              .then(response => {
+                if (response == "granted") {
+                  window.addEventListener("deviceorientation", handleOrientation, true);
+                }
+              })
+              .catch(console.error);
+          } else {
+            alert("DeviceMotionEvent is undefined.");
+          }
+        }
+        $("request").on("click", permission);
 
         //Building on code snippet from https://stackoverflow.com/questions/54416318/how-to-make-a-undo-redo-function
         const UndoMementos = []
@@ -77,22 +92,6 @@
           }
       });
     })(window.jQuery);
-      
-        window.addEventListener("deviceorientation", handleOrientation, true);
-
-        function permission() {
-            if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
-                DeviceMotionEvent.requestPermission()
-                    .then(response => {
-                        if (response == "granted") {
-                            window.addEventListener("deviceorientation", handleOrientation, true);
-                        }
-                    })
-                    .catch(console.error);
-            } else {
-                alert("DeviceMotionEvent is undefined.");
-            }
-        }
   </script>
 </body>
 </html>
