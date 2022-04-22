@@ -9,30 +9,14 @@
 <head>
   <title>Homework 3</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css"
-    /> -->
-  <!-- use directional motion but user shudnt need to shake(excessive acceleration) make sureno accidental invocation -->
-  <!-- change in plane, creativity - add feedback mby?
-  dont map to state (NOT if x=.. SHUD BE 
-  if angle changes from 0 to greater 50(or give grace of extra degrees,
-  maybe case of accidental phonedrop?),
-  if has changed let them make phone straight again
-   add max PLUS), but to transition/change,
-   + time threshhold toprevent accident
-   
-   and it shud happen only once 
-    whats best for the user? fwd backward? left right? wat abt for dlefthanded ppl(dont think it wud matter)
-  -->
+
 </head>
 <body>
   <input id="input" type="text"/>
   <button id="start">Start</button>
-
+  
   <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
   <script type="text/javascript">
     (function($) {
       $(document).ready(function() {
@@ -88,11 +72,13 @@
        
         const UndoMementos = []
         const RedoMementos = []
-        const input = document.querySelector('input')
-        input.addEventListener('input', saveMemento);
-        function saveMemento() {
-          UndoMementos.push(input.value)
-        }
+        // const input = document.querySelector('input')
+        // input.addEventListener('input', saveMemento);
+        var saveText = $("#input").value;
+        UndoMementos.push(saveText);
+        // function saveMemento() {
+        //   UndoMementos.push(input.value)
+        // }
 
         function undo() {
           RedoMementos.push(input.value)
