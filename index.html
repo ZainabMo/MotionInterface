@@ -81,15 +81,15 @@
         // }
 
         function undo() {
-          RedoMementos.push(input.value)
+          RedoMementos.push($("#input").value)
           const lastMemento = UndoMementos.pop()
-          input.value = lastMemento ? lastMemento : input.value
+          $("#input").value = lastMemento ? lastMemento : $("#input").value
         }
 
         function redo() {
           const redoMemento = RedoMementos.pop()
-          input.value = redoMemento.length > input.value.length ? redoMemento : input.value //if redo value is larger
-          UndoMementos.push(input.value)
+          $("#input").value = redoMemento.length > $("#input").value.length ? redoMemento : $("#input").value //if redo value is larger
+          UndoMementos.push($("#input").value)
         }
       });
     })(window.jQuery);
