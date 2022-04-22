@@ -15,8 +15,8 @@
   <input id="input" type="text"/>
   <button id="start">Start</button>
 
-  <button id="undo" onclick="undo()">undo</button>
-  <button id="redo" onclick="redo()">redo</button>
+  <button id="undo" >undo</button>
+  <button id="redo" >redo</button>
   
   <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 
@@ -70,7 +70,8 @@
         }
 
         window.addEventListener('deviceorientation', handleOrientation);
-
+        $("#undo").click(undo);
+        $("#redo").click(redo);
        
         const UndoMementos = []
         const RedoMementos = []
