@@ -61,20 +61,22 @@
             
         }
         
-        $("#request").on("click", function () {
-          if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
-            DeviceMotionEvent.requestPermission()
-              .then(response => {
-                if (response == "granted") {
-                  window.addEventListener("deviceorientation", handleOrientation, true);
-                  $('.output').textContent = "baba";
+        $(document).on('click', '#request', function() {
+                if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
+                    // (optional) Do something before API request prompt.
+                    DeviceMotionEvent.requestPermission()
+                        .then(response => {
+                            // (optional) Do something after API prompt dismissed.
+                            if (response == "granted") {
+                                window.addEventListener("deviceorientation", handleOrientation);
+                                $('#request').remove();
+                            }
+                        })
+                        .catch(console.error);
+                } else {
+                    alert("DeviceMotionEvent is undefined.");
                 }
-              })
-              .catch(console.error);
-          } else {
-            alert("DeviceMotionEvent is undefined.");
-          }
-        });
+            });
        
         const UndoMementos = []
           const RedoMementos = []
