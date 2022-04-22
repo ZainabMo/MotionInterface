@@ -39,7 +39,7 @@
         if (location.protocol != "https:") {
           location.href = "https:" + window.location.href.substring(window.location.protocol.length);
         }
-        $("#start").on("click", function () {
+        $("#start").click(function () {
           if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
             DeviceMotionEvent.requestPermission()
               .then(response => {
