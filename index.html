@@ -29,7 +29,7 @@
               .then(response => {
                 if (response == "granted") {
                   window.addEventListener("deviceorientation", handleOrientation, true);
-                  window.addEventListener("deviceorientation", getInitialAngle, true);
+                  // window.addEventListener("deviceorientation", getInitialAngle, true);
                   $("#start").remove();
                 }
               })
@@ -41,31 +41,31 @@
 
         $("#start").click(permission);
         
-        function getInitialAngle(event){
-          return event.beta;
-        }
+        // function getInitialAngle(event){
+        //   return event.beta;
+        // }
         function handleOrientation(event) {
-            var initialX = setInterval(getInitialAngle, 5000);
+            // var initialX = setInterval(getInitialAngle, 5000);
             // var x = event.beta; // In degree in the range [-180,180)
             var currentX = event.beta; // In degree in the range [-90,90)
             var tilted = false;
             //Left tilt is undo and right tilt is redo, since English is read left to right
             //Left: initial position is 
-            if((currentX > initialX-55) && (currentX < initialX+10) && !tilted){ //45 + 10 degrees grace
+            if((currentX > -55) && (currentX < 10) && !tilted){ //45 + 10 degrees grace
               tilted=true;
               setTimeout(function(){
                 undo();
               }, 2500);
             }
             //Right
-            if((currentX < initialX+55) && (currentX > initialX-10) && !tilted){
+            if((currentX < 55) && (currentX > 10) && !tilted){
               tilted=true;
               setTimeout(function(){
                 redo();
               }, 2500);
             }
             //When phone is back up, change tilted to false
-            if((currentX > initialX-10) && (currentX < initialX+10)){
+            if((currentX > 10) && (currentX < 10)){
               tilted = false;
             }
         }
