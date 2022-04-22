@@ -24,16 +24,13 @@
   <input id="input" type="text"/>
   <button id="undo" onclick="undo()">undo</button>
   <button id="redo" onclick="redo()">redo</button>
+  <button id="request">Request for Permission</button>
+
   <pre class="output">result </pre>
   <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
   <script type="text/javascript">
-    // (function($) {
-        // $(document).ready(function() {
-          if (location.protocol != "https:") {
-            location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-          }
           //Building on code snippet from https://stackoverflow.com/questions/54416318/how-to-make-a-undo-redo-function
           const UndoMementos = []
           const RedoMementos = []
@@ -55,44 +52,50 @@
             UndoMementos.push(input.value)
           }
 
-    
-            function handleOrientation(event) {
-                var x = event.beta; // In degree in the range [-180,180)
-                var y = event.gamma; // In degree in the range [-90,90)
-                output.textContent += `beta : ${x}\n`;
-                output.textContent += `gamma: ${y}\n`;
-                // Because we don't want to have the device upside down
-                // We constrain the x value to the range [-90,90]
-                if (x > 90) { x = 90 };
-                if (x < -90) { x = -90 };
+    (function($) {
+      $(document).ready(function() {
+        if (location.protocol != "https:") {
+          location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
+        function handleOrientation(event) {
+            var x = event.beta; // In degree in the range [-180,180)
+            var y = event.gamma; // In degree in the range [-90,90)
+            output.textContent += `beta : ${x}\n`;
+            output.textContent += `gamma: ${y}\n`;
+            // Because we don't want to have the device upside down
+            // We constrain the x value to the range [-90,90]
+            if (x > 90) { x = 90 };
+            if (x < -90) { x = -90 };
 
-                // To make computation easier we shift the range of
-                // x and y to [0,180]
-                x += 90;
-                y += 90;
+            // To make computation easier we shift the range of
+            // x and y to [0,180]
+            x += 90;
+            y += 90;
+        }
+
+        window.addEventListener("deviceorientation", handleOrientation, true);
+
+        function permission() {
+            if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
+                // (optional) Do something before API request prompt.
+                output.textContent = `Need to request for permission first \n`;
+                DeviceMotionEvent.requestPermission()
+                    .then(response => {
+                        // (optional) Do something after API prompt dismissed.
+                        if (response == "granted") {
+                            window.addEventListener("deviceorientation", handleOrientation, true);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                alert("DeviceMotionEvent is undefined.");
             }
+        }
+        const btn = document.getElementById("request");
+        btn.addEventListener("click", permission);
 
-            window.addEventListener("deviceorientation", handleOrientation, true);
-
-            function permission() {
-                if (typeof(DeviceMotionEvent) !== "undefined" && typeof(DeviceMotionEvent.requestPermission) === "function") {
-                    // (optional) Do something before API request prompt.
-                    output.textContent = `Need to request for permission first \n`;
-                    DeviceMotionEvent.requestPermission()
-                        .then(response => {
-                            // (optional) Do something after API prompt dismissed.
-                            if (response == "granted") {
-                                window.addEventListener("deviceorientation", handleOrientation, true);
-                            }
-                        })
-                        .catch(console.error);
-                } else {
-                    alert("DeviceMotionEvent is undefined.");
-                }
-            }
-
-      //   });
-      // })(window.jQuery);
+        });
+      })(window.jQuery);
   </script>
 </body>
 </html>
