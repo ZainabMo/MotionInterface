@@ -70,22 +70,22 @@
         const RedoMementos = []
         // const input = document.querySelector('input')
         // input.addEventListener('input', saveMemento);
-        var saveText = $("#input").value;
+        var saveText = $("#input").val();
         UndoMementos.push(saveText);
         // function saveMemento() {
         //   UndoMementos.push(input.value)
         // }
 
         function undo() {
-          RedoMementos.push($("#input").value)
+          RedoMementos.push($("#input").val())
           const lastMemento = UndoMementos.pop()
-          $("#input").value = lastMemento ? lastMemento : $("#input").value
+          $("#input").val() = lastMemento ? lastMemento : $("#input").val()
         }
 
         function redo() {
           const redoMemento = RedoMementos.pop()
-          $("#input").value = redoMemento.length > $("#input").value.length ? redoMemento : $("#input").value //if redo value is larger
-          UndoMementos.push($("#input").value)
+          $("#input").val() = redoMemento.length > $("#input").val().length ? redoMemento : $("#input").val() //if redo value is larger
+          UndoMementos.push($("#input").val())
         }
       });
     })(window.jQuery);
