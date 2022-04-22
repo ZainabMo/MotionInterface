@@ -21,6 +21,26 @@
   <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 
   <script type="text/javascript">
+    const UndoMementos = []
+        const RedoMementos = []
+        const input = document.querySelector('input')
+
+        function saveMemento() {
+          UndoMementos.push(input.value)
+        }
+
+        function undo() {
+          RedoMementos.push(input.value)
+          const lastMemento = UndoMementos.pop()
+          input.value = lastMemento ? lastMemento : input.value
+        }
+
+        function redo() {
+          const redoMemento = RedoMementos.pop()
+          input.value = redoMemento.length > input.value.length ? redoMemento : input.value //if redo value is larger
+          UndoMementos.push(input.value)
+        }
+
     (function($) {
       $(document).ready(function() {
         if (location.protocol != "https:") {
@@ -70,30 +90,7 @@
         }
 
         window.addEventListener('deviceorientation', handleOrientation);
-        $("#undo").click(undo);
-        $("#redo").click(redo);
-       
-        const UndoMementos = []
-        const RedoMementos = []
-        // const input = document.querySelector('input')
-        // input.addEventListener('input', saveMemento);
-        var saveText = $("#input").val();
-        UndoMementos.push(saveText);
-        // function saveMemento() {
-        //   UndoMementos.push(input.value)
-        // }
-
-        function undo() {
-          RedoMementos.push($("#input").val())
-          const lastMemento = UndoMementos.pop()
-          $("#input").val() = lastMemento ? lastMemento : $("#input").val()
-        }
-
-        function redo() {
-          const redoMemento = RedoMementos.pop()
-          $("#input").val() = redoMemento.length > $("#input").val().length ? redoMemento : $("#input").val() //if redo value is larger
-          UndoMementos.push($("#input").val())
-        }
+      
       });
     })(window.jQuery);
   </script>
